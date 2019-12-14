@@ -1,7 +1,7 @@
 # CGE modelling in Python
 
 Welcome to our GitHub repository in which we store the core of CGE model written completely in Python language.
-We are students from Faculty of Economic Science, University of Warsaw. The above model was the part of final project for one of our courses during studies.
+We are students from Faculty of Economic Sciences, University of Warsaw. The above model was the part of final project for one of our courses during studies.
 
 ## Description of CGE models
 
