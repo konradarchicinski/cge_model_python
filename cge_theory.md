@@ -1,15 +1,19 @@
 # Utility function
 CES utility function may be expressed as follows: 
 
-$U(x_1,x_2...x_n) = A\cdot(\sum_{i=1}^{n} a_i^{\frac{1}{\sigma}} x_i^{\frac{\sigma-1}{\sigma}})^{\frac{\sigma}{\sigma-1}}$
+$$
+U(x_1,x_2...x_n) = A\cdot(\sum_{i=1}^{n} a_i^{\frac{1}{\sigma}} x_i^{\frac{\sigma-1}{\sigma}})^{\frac{\sigma}{\sigma-1}}
+$$
 
 Where parameter $a_i \in (0,1)$ is responsible for ... , $A$ is and ... , $\sigma$ is the elasticity of substitution between each good represented by a $x_i$ variables.
 
 
 # Production function
 CES production function may be expressed as follows:
- 
-$Q(K_t,L_t) = B\cdot(b_K^{\frac{1}{\gamma}} K_t^{\frac{\gamma-1}{\gamma}} + b_L^{\frac{1}{\gamma}}L_t^{\frac{\gamma-1}{\gamma}})^{\frac{\gamma}{\gamma-1}}$
+
+$$
+Q(K_t,L_t) = B\cdot(b_K^{\frac{1}{\gamma}} K_t^{\frac{\gamma-1}{\gamma}} + b_L^{\frac{1}{\gamma}}L_t^{\frac{\gamma-1}{\gamma}})^{\frac{\gamma}{\gamma-1}}
+$$
 
 Where parameter $b_i \in (0,1)$ is responsible for the intensity in production, $B$ is and efficiency parameter or in others words factor productivity, $\gamma$ is the elasticity of substitution between capital $K$ and labor $L$.
 

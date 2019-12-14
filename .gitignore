@@ -1,0 +1,12 @@
+# Visual Studio Code
+*.vscode
+
+# Jupyter Notebook
+*.ipynb_checkpoints
+
+# Python
+*__pycache__
+
+# IPython
+profile_default/
+ipython_config.py
