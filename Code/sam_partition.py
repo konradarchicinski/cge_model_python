@@ -1,40 +1,86 @@
 import pandas as pd
-import numpy as np
 import os
+import argparse
 from pathlib import Path
 
-# DATASET
-#cwd = str(Path(os.getcwd()).parent)
-cwd = os.getcwd()
-macro = pd.read_excel(cwd + '\\Data\\SAM_Macro.xlsx',
-                      header = 0)
-macro = macro.drop(axis = 0, index = 0) #cleaning excel error
-micro = pd.read_excel(cwd + '\\Data\\SAM_Micro.xlsx',
-                      header = 0, index_col = 0)
+work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 
-# FACTORS
-households = ['hhd-0', 'hhd-1', 'hhd-2', 'hhd-3', 'hhd-4', 'hhd-5', 'hhd-6', 'hhd-7', 'hhd-8',
-              'hhd-91', 'hhd-92', 'hhd-93', 'hhd-94', 'hhd-95', 'gov']
-factors = ['flab-p', 'flab-m', 'flab-s', 'flab-t', 'fcap']
-taxes = ['atax', 'dtax', 'mtax', 'stax']
-column_names = list(micro.columns)
-goods_p = column_names[1:62]
-goods_c = column_names[62:166]
+def sam_data_preparation(file_name, sheet_name, setting_file):
+    '''
+    Usually Social Accounting Matrix datasets are build in hard to operate way,
+    this funtion...
 
-def extract(df, file_name, r = None, c = None):
-    if(r == None):
-        df1 = df.loc[:,c]
-        return df1.to_csv(cwd + '\\Data\\' + file_name + '.csv', na_rep = '-')
-    elif(c == None):
-        df1 = df.loc[r,:]
-        return df1.to_csv(cwd + '\\Data\\' + file_name + '.csv', na_rep = '-')
-    elif(r == None and c == None):
-        return df.to_csv(cwd + '\\Data\\' + file_name + '.csv', na_rep = '-')
-    else:
-        df1 = df.loc[r,c]
-        return df1.to_csv(cwd + '\\Data\\' + file_name + '.csv', na_rep = '-')
+    To prepare data for analysis user has to...
+    '''
+
+    micro = pd.read_excel(
+        work_dir + '\\Data\\Raw data\\' + file_name,
+        sheet_name=sheet_name,
+        header=0,
+        index_col=0
+    )
+    sf = pd.read_excel(
+        work_dir + '\\Settings\\' + setting_file,
+        header=0
+    )
+    features = {}
+    for column in sf:
+        features[column] = sf[column].dropna()
+    tables = {
+        'endowment': (features['factors'], features['households']),
+        'production': (features['goods_production'], features['factors']),
+        'consumption': (features['households'], features['goods_consumption'])
+    }
+
+    for key, (col, row) in tables.items():
+        table = micro[col].loc[row]
+        table.to_csv(
+            work_dir + '\\Data\\Raw data\\' + key + '.csv', 
+            na_rep = '-'
+        )
+
+
+def main():
     
-extract(micro, 'endowment', households, factors)
-extract(micro, 'production', factors, goods_p)
-extract(micro, 'consumption', goods_c, households)
-extract(micro, 'taxes', taxes)
+    parser = argparse.ArgumentParser(
+        description='Program used for extracting data from Social Accounting Matrix.'
+    )
+    parser.add_argument(
+        'file_name', 
+        type=str,
+        nargs='?', 
+        default='SA_SAM_2015.xlsx', 
+        help="""
+        Capital shock variable in range between 0 and 1, 
+        corresponding to the percentage decrease in the sector.
+        """
+    )
+    parser.add_argument(
+        'sheet_name',  
+        type=str,
+        nargs='?',
+        default='Micro SAM 2015',
+        help="""
+        Labour shock variable in range between 0 and 1, 
+        corresponding to the percentage decrease in the sector.
+        """
+    )
+    parser.add_argument(
+        'setting_file',  
+        type=str,
+        nargs='?',
+        default='SA_setting.xlsx',
+        help="""
+        Labour shock variable in range between 0 and 1, 
+        corresponding to the percentage decrease in the sector.
+        """
+    )
+    args = parser.parse_args()
+
+    sam_data_preparation(args.file_name, args.sheet_name, args.setting_file)
+
+
+if __name__ == "__main__":
+
+    main()
+    
