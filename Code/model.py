@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import argparse
 from gekko import GEKKO
+from pathlib import Path
+import os
 
 
 class CGE():
@@ -16,17 +18,19 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour):
+    def __init__(self, used_data_folder, capital, labour):
 
         work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 
         self.Shock = {'K': capital, 'L': labour}
 
-        self.use = pd.read_csv(work_dir + '\\Data\\production_structure.csv', index_col=0)
-        self.xdem = pd.read_csv(work_dir + '\\Data\\consumption_structure.csv', index_col=0)
-        self.enfac = pd.read_csv(work_dir + '\\Data\\endowment_of_the_household.csv', index_col=0)
-        self.taxrev = pd.read_csv(work_dir + '\\Data\\tax_revenue.csv', index_col=0)
-        self.trans = pd.read_csv(work_dir + '\\Data\\transfers.csv', index_col=0)
+        self.use = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\production.csv', index_col=0)
+        self.xdem = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\consumption.csv', index_col=0)
+        self.enfac = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\endowment.csv', index_col=0)
+        self.gdem = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\government_consumption.csv', index_col=0)
+        self.gsav = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\government_savings.csv', index_col=0)
+        self.tc = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\consumption_taxes.csv', index_col=0)
+        self.ti = pd.read_csv(work_dir + '\\Data\\' + used_data_folder + '\\income_taxes.csv', index_col=0)
         
         self.factors = self.use.index
         self.sectors = self.use.columns
@@ -289,6 +293,15 @@ def main():
         description='Program forcasting economy changes based on CGE model theory.'
     )
     parser.add_argument(
+        "used_data_folder", 
+        type=str,
+        nargs='?', 
+        default='SA_SAM_2015', 
+        help="""
+        Folder in which are based tables used in analysis.
+        """
+    )
+    parser.add_argument(
         "capital", 
         type=float,
         nargs='?', 
@@ -310,7 +323,7 @@ def main():
     )
     args = parser.parse_args()
 
-    CGE(args.capital, args.labour).results()
+    CGE(args.used_data_folder, args.capital, args.labour).results()
 
 
 if __name__ == "__main__":

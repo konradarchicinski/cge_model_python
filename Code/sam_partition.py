@@ -23,19 +23,30 @@ def sam_data_preparation(file_name, sheet_name, setting_file):
         work_dir + '\\Settings\\' + setting_file,
         header=0
     )
+    
     features = {}
     for column in sf:
-        features[column] = sf[column].dropna()
+        features[column] = list(sf[column].dropna())
     tables = {
         'endowment': (features['factors'], features['households']),
-        'production': (features['goods_production'], features['factors']),
-        'consumption': (features['households'], features['goods_consumption'])
+        'government_savings': (features['factors'][-1], features['government']),
+        'production': (features['goods_activities'], features['factors']),
+        'consumption': (features['households'], features['goods_commodities']),
+        'government_consumption': (features['government'], features['goods_commodities']),
+        'consumption_taxes': (features['goods_commodities'], features['cons_taxes']),
+        'income_taxes': (features['households'], features['inc_taxes'])
     }
+
+    prep_data_folder = work_dir + '\\Data\\' + file_name.split('.')[0]
+    
+    if not os.path.exists(prep_data_folder):
+        os.mkdir(prep_data_folder)
 
     for key, (col, row) in tables.items():
         table = micro[col].loc[row]
         table.to_csv(
-            work_dir + '\\Data\\Raw data\\' + key + '.csv', 
+            prep_data_folder + '\\' + key + '.csv',
+            header = True,
             na_rep = '-'
         )
 
