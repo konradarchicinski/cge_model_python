@@ -30,6 +30,8 @@ call conda install -c conda-forge jupyterlab
 ::
 call conda install -c conda-forge pandas
 ::
+call conda install -c conda-forge xlrd
+::
 call conda install -c conda-forge sympy
 ::
 call conda install -c conda-forge nose

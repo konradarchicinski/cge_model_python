@@ -18,13 +18,15 @@ class CGE():
 
     def __init__(self, capital, labour):
 
+        work_dir = str(Path(os.path.realpath(__file__)).parents[1])
+
         self.Shock = {'K': capital, 'L': labour}
 
-        self.use = pd.read_csv('Data\\production_structure.csv', index_col=0)
-        self.xdem = pd.read_csv('Data\\consumption_structure.csv', index_col=0)
-        self.enfac = pd.read_csv('Data\\endowment_of_the_household.csv', index_col=0)
-        self.taxrev = pd.read_csv('Data\\tax_revenue.csv', index_col=0)
-        self.trans = pd.read_csv('Data\\transfers.csv', index_col=0)
+        self.use = pd.read_csv(work_dir + '\\Data\\production_structure.csv', index_col=0)
+        self.xdem = pd.read_csv(work_dir + '\\Data\\consumption_structure.csv', index_col=0)
+        self.enfac = pd.read_csv(work_dir + '\\Data\\endowment_of_the_household.csv', index_col=0)
+        self.taxrev = pd.read_csv(work_dir + '\\Data\\tax_revenue.csv', index_col=0)
+        self.trans = pd.read_csv(work_dir + '\\Data\\transfers.csv', index_col=0)
         
         self.factors = self.use.index
         self.sectors = self.use.columns
