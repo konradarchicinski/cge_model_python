@@ -5,6 +5,7 @@ from gekko import GEKKO
 from pathlib import Path
 import os
 import csv
+import sql_create_load
 
 class CGE():
     '''
