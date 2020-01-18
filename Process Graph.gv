@@ -1,0 +1,24 @@
+digraph PROCESS {
+	node [shape=parallelogram]
+	"SAM data"
+	"SAM data csv"
+	"Results DB"
+	node [shape=box]
+	"produce_process_graph.py"
+	"sam_partition.py"
+	"model.py"
+	node [shape=oval]
+	Dashboard
+	node [shape=note]
+	"Graph"
+	Dashboard -> "SAM data" [label="Data file used" len=4.00]
+	"SAM data" -> "sam_partition.py" [len=2.00]
+	"sam_partition.py" -> "SAM data csv" [label=sam_data_preparation len=4.00]
+	"SAM data csv" -> "model.py" [len=2.00]
+	Dashboard -> "model.py" [label="Anticipated shocks" len=4.00]
+	"model.py" -> "Results DB" [len=2.00]
+	"Results DB" -> Dashboard [len=2.00]
+	"produce_process_graph.py" -> "Graph" [label=produce_process_graph len=3.00]
+	label="\n\nProcess Graph"
+	fontsize=20
+}
