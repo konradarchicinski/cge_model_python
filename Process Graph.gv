@@ -1,8 +1,4 @@
 digraph PROCESS {
-	node [shape=parallelogram]
-	"SAM data"
-	"SAM data csv"
-	"Results DB"
 	node [shape=box]
 	"produce_process_graph.py"
 	"sam_partition.py"
@@ -11,6 +7,10 @@ digraph PROCESS {
 	Dashboard
 	node [shape=note]
 	"Graph"
+	node [shape=parallelogram style=filled]
+	"SAM data"
+	"SAM data csv"
+	"Results DB"
 	Dashboard -> "SAM data" [label="Data file used" len=4.00]
 	"SAM data" -> "sam_partition.py" [len=2.00]
 	"sam_partition.py" -> "SAM data csv" [label=sam_data_preparation len=4.00]

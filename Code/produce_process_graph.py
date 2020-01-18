@@ -16,11 +16,6 @@ def produce_process_graph(graphviz_installation_path):
 
     e = Digraph('PROCESS', directory=work_dir, filename='Process Graph.gv', engine='neato', format='pdf')
 
-    e.attr('node', shape='parallelogram')
-    e.node('SAM data')
-    e.node('SAM data csv')
-    e.node('Results DB')
-
     e.attr('node', shape='box')
     e.node('produce_process_graph.py')
     e.node('sam_partition.py')
@@ -31,6 +26,11 @@ def produce_process_graph(graphviz_installation_path):
 
     e.attr('node', shape='note')
     e.node('Graph')
+
+    e.attr('node', shape='parallelogram', style='filled')
+    e.node('SAM data')
+    e.node('SAM data csv')
+    e.node('Results DB')
 
     e.edge('Dashboard', 'SAM data', label='Data file used', len='4.00')
     e.edge('SAM data', 'sam_partition.py', len='2.00')
