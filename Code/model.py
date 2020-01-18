@@ -3,7 +3,9 @@ import pandas as pd
 import argparse
 from pathlib import Path
 from gekko import GEKKO
-
+from pathlib import Path
+import os
+import csv
 
 class CGE():
     '''
@@ -259,31 +261,32 @@ class CGE():
 
         self.equilibrium()
 
-        solution = (
-            'Solutions:\n' +
-            '------------------------------\n' +
-            '%-12s%6s%12.3f\n' % ('Gov wealth', '|', self.W['GOVR'].value[0]) +
-            '%-12s%6s%12.3f\n' % ('Gov PI', '|', self.PW['GOVR'].value[0]) +
-            '%-12s%6s%12.3f\n' % ('Gov income', '|', self.INC['GOVR'].value[0]) +
-            '------------------------------\n' +
-            '%-12s%6s%12.3f\n' % ('K price', '|', self.pK.value[0]) +
-            '%-12s%6s%12.3f\n' % ('L price', '|', self.pL.value[0]) +
-            '------------------------------\n'
-        )   
+        solution = {
+            'Gov_wealth': self.W['GOVR'].value[0],
+            'Gov_PI': self.PW['GOVR'].value[0],
+            'Gov_income': self.INC['GOVR'].value[0],
+            'K_price': self.pK.value[0],
+            'L_price': self.pL.value[0]
+        }
         for sec in self.sectors:
-            solution += '%-12s%6s%12.3f\n' % (f'{sec} supply', '|', self.S[sec].value[0])
-            solution += '%-12s%6s%12.3f\n' % (f'{sec} price', '|', self.p[sec].value[0])
-            solution += '%-12s%6s%12.3f\n' % (f'K {sec} tax', '|', self.taxK[sec].value[0])
-            solution += '%-12s%6s%12.3f\n' % (f'L {sec} tax', '|', self.taxL[sec].value[0])
-            solution += '------------------------------\n'
+            solution[f'{sec}_supply'] = self.S[sec].value[0]
+            solution[f'{sec}_price'] = self.p[sec].value[0]
+            solution[f'K_{sec}_tax'] = self.taxK[sec].value[0]
+            solution[f'L_{sec}_tax'] = self.taxL[sec].value[0]
         for hou in self.households:
-            solution += '%-12s%6s%12.3f\n' % (hou + ' Wealth', '|', self.W[hou].value[0])
-            solution += '%-12s%6s%12.3f\n' % (hou + ' CPI', '|', self.PW[hou].value[0])
-            solution += '%-12s%6s%12.3f\n' % (hou + ' Income', '|', self.INC[hou].value[0])
+            solution[f'{hou}_Wealth'] = self.W[hou].value[0]
+            solution[f'{hou}_CPI'] = self.PW[hou].value[0]
+            solution[f'{hou}_Income'] = self.INC[hou].value[0]
+        
+        work_dir = str(Path(os.path.realpath(__file__)).parents[1])
+        with open(work_dir + '\\Data\\solution.csv','w') as f:
+            w = csv.writer(f)
+            w.writerow(solution.keys())
+            w.writerow(solution.values())
 
         return print(solution)
-
-
+       
+        
 def main():
     
     parser = argparse.ArgumentParser(

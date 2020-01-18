@@ -1,0 +1,79 @@
+ ----------------------------------------------------------------
+ APMonitor, Version 0.9.2
+ APMonitor Optimization Suite
+ ----------------------------------------------------------------
+ 
+ 
+ --------- APM Model Size ------------
+ Each time step contains
+   Objects      :  0
+   Constants    :  37
+   Variables    :  27
+   Intermediates:  0
+   Connections  :  0
+   Equations    :  19
+   Residuals    :  19
+ 
+ Number of state variables:    27
+ Number of total equations: -  19
+ Number of slack variables: -  0
+ ---------------------------------------
+ Degrees of freedom       :    8
+ 
+ ----------------------------------------------
+ Steady State Optimization with APOPT Solver
+ ----------------------------------------------
+ 
+ Iter    Objective  Convergence
+    0  2.52525E-01  1.15625E+00
+    1  5.45120E-04  1.56558E-01
+    2  5.18927E-07  5.29967E-03
+    3  8.17500E-14  6.17529E-05
+    4  4.74038E-20  8.72932E-09
+    5  1.22795E-21  8.72932E-09
+ Successful solution
+ 
+ ---------------------------------------------------
+ Solver         :  APOPT (v1.0)
+ Solution time  :  0.028999999999999984 sec
+ Objective      :  0.
+ Successful solution
+ ---------------------------------------------------
+ 
+
+Solutions:
+------------------------------
+Gov wealth       |      63.326
+Gov PI           |       1.000
+Gov income       |      63.302
+------------------------------
+K price          |       0.807
+L price          |       0.850
+------------------------------
+x0 supply        |     105.693
+x0 price         |       1.011
+K x0 tax         |       0.257
+L x0 tax         |       0.182
+------------------------------
+x1 supply        |      69.345
+x1 price         |       0.977
+K x1 tax         |       0.232
+L x1 tax         |       0.073
+------------------------------
+x2 supply        |      94.116
+x2 price         |       1.018
+K x2 tax         |       0.166
+L x2 tax         |       0.243
+------------------------------
+x3 supply        |      75.596
+x3 price         |       1.022
+K x3 tax         |       0.286
+L x3 tax         |       0.084
+------------------------------
+HOU1 Wealth      |     128.166
+HOU1 CPI         |       1.010
+HOU1 Income      |     129.426
+HOU2 Wealth      |     153.216
+HOU2 CPI         |       1.011
+HOU2 Income      |     154.913
+
