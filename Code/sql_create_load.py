@@ -15,13 +15,13 @@ def create_db(db_name, table_name):
     try:
         conn = sqlite3.connect(
             work_dir + 
-            '\\Data\\Raw data\\' 
+            '\\Data\\' 
             + db_name + '.db'
         )
         if (table_name != None):
             table = pd.read_csv(
                 work_dir + 
-                '\\Data\\Raw data\\' 
+                '\\Data\\' 
                 + table_name + '.csv'
             )
             table.to_sql(

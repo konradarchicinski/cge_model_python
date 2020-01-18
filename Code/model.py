@@ -4,6 +4,7 @@ import argparse
 from gekko import GEKKO
 from pathlib import Path
 import os
+import csv
 
 class CGE():
     '''
@@ -275,10 +276,16 @@ class CGE():
             solution[f'{hou}_Wealth'] = self.W[hou].value[0]
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
+        
+        work_dir = str(Path(os.path.realpath(__file__)).parents[1])
+        with open(work_dir + '\\Data\\solution.csv','w') as f:
+            w = csv.writer(f)
+            w.writerow(solution.keys())
+            w.writerow(solution.values())
 
         return print(solution)
-
-
+       
+        
 def main():
     
     parser = argparse.ArgumentParser(

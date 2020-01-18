@@ -1,0 +1,13 @@
+2017-11-28 17:54:03,409 INFO     None GET http://localhost:63700/ 127.0.0.1
+2017-11-28 17:54:03,416 INFO     False GET http://localhost:63700/login 127.0.0.1
+2017-11-28 17:54:09,058 INFO     None GET http://localhost:63700/index 127.0.0.1
+2017-11-28 17:54:09,061 INFO     False GET http://localhost:63700/login 127.0.0.1
+2017-11-28 17:54:13,576 INFO     admin POST http://localhost:63700/login 127.0.0.1
+2017-11-28 17:54:13,580 INFO     admin GET http://localhost:63700/index 127.0.0.1
+2017-11-28 17:54:15,914 INFO     admin GET http://localhost:63700/ 127.0.0.1
+2017-11-28 17:54:16,297 INFO     admin GET http://localhost:63700/index 127.0.0.1
+2017-11-28 19:05:26,232 INFO     None GET http://localhost:63700/ 127.0.0.1
+2017-11-28 19:05:26,271 INFO     False GET http://localhost:63700/login 127.0.0.1
+2017-11-28 19:05:33,675 INFO     admin POST http://localhost:63700/login 127.0.0.1
+2017-11-28 19:05:33,736 INFO     admin GET http://localhost:63700/index 127.0.0.1
+2017-11-28 19:11:12,601 INFO     admin GET http://localhost:63700/index/error 127.0.0.1
