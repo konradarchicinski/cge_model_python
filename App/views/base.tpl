@@ -10,7 +10,7 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
 
-    <title>CGE Model</title>
+    <title>Basic series presenter</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
 
@@ -22,12 +22,12 @@
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/">CGE Model</a>
+            <a class="navbar-brand" href="/">Basic series presenter</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="/form">Model</a></li>
-              <li><a href="/results">Results</a></li>
+              <li><a href="/form">Arithmetic series</a></li>
+              <li><a href="/results">Geometric series</a></li>
               <li><a href="/graph">Graph</a></li>
             </ul>
 
