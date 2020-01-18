@@ -23,6 +23,7 @@ class CGE():
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
         self.used_data_folder = str(year)
+        self.year = year
 
         self.Shock = {'K': capital, 'L': labour}
 
@@ -278,11 +279,28 @@ class CGE():
             solution[f'{hou}_Wealth'] = self.W[hou].value[0]
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
-   
-        with open(self.work_dir + '\\Data\\solution.csv','w') as f:
-            w = csv.writer(f)
-            w.writerow(solution.keys())
-            w.writerow(solution.values())
+
+        pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_csv(
+            self.work_dir + '\\Data\\solution'+ str(self.year + 1) + '.csv'
+        )
+
+        prep_data_folder = self.work_dir + '\\Data\\' + str(self.year + 1)
+        if not os.path.exists(prep_data_folder):
+            os.mkdir(prep_data_folder)
+
+        new_cons_dict = {}
+        for hou in self.xdem.columns:
+            new_cons_dict[hou] = [
+                self.S[sec].value[0] * self.xdem[hou][sec]/self.xdem.loc[sec].sum() 
+                for sec in self.sectors
+            ]
+        pd.DataFrame(new_cons_dict, index = self.sectors).to_csv(
+            self.work_dir + '\\Data\\' + str(self.year + 1) + '\\consumption_structure.csv'
+        )
+        self.use.to_csv(self.work_dir + '\\Data\\' + str(self.year + 1) + '\\production_structure.csv')
+        self.enfac.to_csv(self.work_dir + '\\Data\\' + str(self.year + 1) + '\\endowment_of_the_household.csv')
+        self.taxrev.to_csv(self.work_dir + '\\Data\\' + str(self.year + 1) + '\\tax_revenue.csv')
+        self.trans.to_csv(self.work_dir + '\\Data\\' + str(self.year + 1) + '\\transfers.csv')
 
         return print(solution)
        
