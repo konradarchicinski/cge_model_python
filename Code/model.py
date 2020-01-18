@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import argparse
+from pathlib import Path
 from gekko import GEKKO
 from pathlib import Path
 import os
@@ -19,17 +20,18 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour):
+    def __init__(self, capital, labour, year):
 
-        work_dir = str(Path(os.path.realpath(__file__)).parents[1])
+        self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
+        self.used_data_folder = str(year)
 
         self.Shock = {'K': capital, 'L': labour}
 
-        self.use = pd.read_csv(work_dir + '\\Data\\production_structure.csv', index_col=0)
-        self.xdem = pd.read_csv(work_dir + '\\Data\\consumption_structure.csv', index_col=0)
-        self.enfac = pd.read_csv(work_dir + '\\Data\\endowment_of_the_household.csv', index_col=0)
-        self.taxrev = pd.read_csv(work_dir + '\\Data\\tax_revenue.csv', index_col=0)
-        self.trans = pd.read_csv(work_dir + '\\Data\\transfers.csv', index_col=0)
+        self.use = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\production_structure.csv', index_col=0)
+        self.xdem = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\consumption_structure.csv', index_col=0)
+        self.enfac = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\endowment_of_the_household.csv', index_col=0)
+        self.taxrev = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\tax_revenue.csv', index_col=0)
+        self.trans = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\transfers.csv', index_col=0)
         
         self.factors = self.use.index
         self.sectors = self.use.columns
@@ -277,9 +279,8 @@ class CGE():
             solution[f'{hou}_Wealth'] = self.W[hou].value[0]
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
-        
-        work_dir = str(Path(os.path.realpath(__file__)).parents[1])
-        with open(work_dir + '\\Data\\solution.csv','w') as f:
+   
+        with open(self.work_dir + '\\Data\\solution.csv','w') as f:
             w = csv.writer(f)
             w.writerow(solution.keys())
             w.writerow(solution.values())
@@ -312,9 +313,18 @@ def main():
         corresponding to the percentage decrease in the sector.
         """
     )
+    parser.add_argument(
+        "year",  
+        type=int,
+        nargs='?',
+        default=2020,
+        help="""
+        Year sth.
+        """
+    )
     args = parser.parse_args()
 
-    CGE(args.capital, args.labour).results()
+    CGE(args.capital, args.labour, args.year).results()
 
 
 if __name__ == "__main__":
