@@ -26,9 +26,9 @@ def index():
 def index(shock=0):
 	print(request.forms.keys())
 	myDict= {k:request.forms.getunicode(k) for k in request.forms.keys()}
-	for(i in 1:1):
-		c_shock = request.forms.get('c_shock')
-		l_shock = request.forms.get('l_shock')
+	for(i in 0:0):
+		c_shock_i = request.forms.get('c_shock2020'+i)
+		l_shock_i = request.forms.get('l_shock')
 		model.CGE(float(c_shock), float(l_shock), 2020+i).results()
 
 	return template('formExampleProc', shock=shock, myDict=myDict)
