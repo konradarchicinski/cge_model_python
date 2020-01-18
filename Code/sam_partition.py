@@ -8,8 +8,10 @@ work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 def sam_data_preparation(file_name, sheet_name, setting_file):
     '''
     Usually Social Accounting Matrix datasets are build in hard to operate way,
-    this funtion...
-    To prepare data for analysis user has to...
+    this funtion helps to organize information from it.
+    
+    To prepare data for analysis user has to provide file name specific sheet name
+    in it, with SAM table and setting file placed in Settings folder.
     '''
 
     micro = pd.read_excel(
@@ -27,12 +29,12 @@ def sam_data_preparation(file_name, sheet_name, setting_file):
     for column in sf:
         features[column] = list(sf[column].dropna())
     tables = {
-        'endowment': (features['factors'], features['households']),
-        'government_savings': (features['factors'][-1], features['government']),
-        'production': (features['goods_activities'], features['factors']),
-        'consumption': (features['households'], features['goods_commodities']),
-        'government_consumption': (features['government'], features['goods_commodities']),
-        'income_taxes': (features['households'], features['inc_taxes'])
+        'endowment_of_the_household': (features['factors'], features['households'][:-1]),
+        'production_structure': (features['goods_activities'], features['factors']),
+        'consumption_structure': (features['households'], features['goods_commodities']),
+        #'government_consumption': (features['government'], features['goods_commodities']),
+        'tax_revenue': (features['households'][:-1], features['inc_taxes']),
+        'transfers': (features['households'][:-1], features['households'][:-1])
     }
 
     prep_data_folder = work_dir + '\\Data\\' + file_name.split('.')[0]
@@ -40,12 +42,31 @@ def sam_data_preparation(file_name, sheet_name, setting_file):
     if not os.path.exists(prep_data_folder):
         os.mkdir(prep_data_folder)
 
+    activities = [good[1:] for good in features['goods_activities']]
+    commodities = [good[1:] for good in features['goods_commodities']]
+
     for key, (col, row) in tables.items():
         table = micro[col].loc[row]
+        if col == features['goods_activities']:
+            table.columns = table.columns.str[1:] 
+            for elem in list(set(commodities) - set(activities)):
+                table[elem] = 0
+        if col == features['goods_commodities']:
+            table.columns = table.columns.str[1:]
+            for elem in list(set(activities) - set(commodities)):
+                table[elem] = 0
+        if row == features['goods_activities']:
+            table.index = table.index.str[1:]
+            for elem in list(set(commodities) - set(activities)):
+                table.loc[elem] = 0
+        if row == features['goods_commodities']:
+            table.index = table.index.str[1:]
+            for elem in list(set(activities) - set(commodities)):
+                table.loc[elem] = 0
         table.to_csv(
             prep_data_folder + '\\' + key + '.csv',
             header = True,
-            na_rep = '-'
+            na_rep = 0
         )
 
 
