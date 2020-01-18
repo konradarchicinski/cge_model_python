@@ -1,11 +1,10 @@
+import os
 import numpy as np
 import pandas as pd
 import argparse
 from pathlib import Path
 from gekko import GEKKO
-from pathlib import Path
-import os
-import csv
+
 
 class CGE():
     '''
@@ -35,7 +34,7 @@ class CGE():
         
         self.factors = self.use.index
         self.sectors = self.use.columns
-        self.households = self.xdem.loc[:, self.xdem.columns != 'GOVR'].columns
+        self.households = self.xdem.loc[:, self.xdem.columns != 'GOV'].columns
 
         self.beta = pd.DataFrame(index=self.factors, columns=self.sectors)
         self.alpha = pd.DataFrame(index=self.xdem.index, columns=self.xdem.columns)
@@ -105,7 +104,7 @@ class CGE():
                 )
             # Income tax rate (Tax revenues / Household gross income)
             self.itax[hou] = self.m.Const(
-                self.taxrev[hou]['GOVR'] 
+                self.taxrev[hou]['GOV'] 
                 / np.sum(
                     [
                         self.omega[fac][hou] for fac in self.enfac.columns
@@ -133,16 +132,16 @@ class CGE():
             'PRF_WG': (
                 np.prod(
                     [
-                        (self.p[sec] / self.alpha['GOVR'][sec])**(self.alpha['GOVR'][sec]) 
+                        (self.p[sec] / self.alpha['GOV'][sec])**(self.alpha['GOV'][sec]) 
                         for sec in self.sectors
                     ]
                 ) 
-                / self.A['GOVR'] 
-                == self.PW['GOVR']
+                / self.A['GOV'] 
+                == self.PW['GOV']
             ),
             'MKT_WG': (
-                self.W['GOVR'] * self.PW['GOVR'] 
-                == self.INC['GOVR']
+                self.W['GOV'] * self.PW['GOV'] 
+                == self.INC['GOV']
             ),
             'I_INCG': (
                 np.sum(
@@ -170,7 +169,7 @@ class CGE():
                         for sec in self.sectors
                     ]
                 ) 
-                == self.INC['GOVR']
+                == self.INC['GOV']
             )
         }
 
@@ -192,7 +191,7 @@ class CGE():
                         for hou in self.households
                     ]
                 ) 
-                + self.alpha['GOVR'][sec]*self.W['GOVR']*self.PW['GOVR'] / self.p[sec] 
+                + self.alpha['GOV'][sec]*self.W['GOV']*self.PW['GOV'] / self.p[sec] 
                 == self.S[sec]
             )
 
@@ -264,9 +263,9 @@ class CGE():
         self.equilibrium()
 
         solution = {
-            'Gov_wealth': self.W['GOVR'].value[0],
-            'Gov_PI': self.PW['GOVR'].value[0],
-            'Gov_income': self.INC['GOVR'].value[0],
+            'Gov_wealth': self.W['GOV'].value[0],
+            'Gov_PI': self.PW['GOV'].value[0],
+            'Gov_income': self.INC['GOV'].value[0],
             'K_price': self.pK.value[0],
             'L_price': self.pL.value[0]
         }
@@ -336,7 +335,7 @@ def main():
         nargs='?',
         default=2020,
         help="""
-        Year sth.
+        Year from which input data came.
         """
     )
     args = parser.parse_args()
