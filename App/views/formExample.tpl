@@ -6,9 +6,9 @@
   <fieldset>
     <legend>Enter shock value (0,1):</legend>
     Capital shock:<br>
-    <input type="number" name="c_shock" value=""><br>
+    <input type="text" name="c_shock"><br>
     Labour shock:<br>
-    <input type="number" name="l_shock" value=""><br><br>
+    <input type="text" name="l_shock"><br><br>
     <input type="submit" value="Submit">
   </fieldset>
 </form> 

@@ -10,7 +10,7 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
 
-    <title>Python Bottle Web App</title>
+    <title>CGE Model</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
 
@@ -22,14 +22,13 @@
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/">Python Bottle Web App</a>
+            <a class="navbar-brand" href="/">CGE Model</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="/">Main</a></li>
-              <li><a href="/bestMovies">Best movies</a></li>
-               <li><a href="/boxOffice">Box office</a></li>
-			   <li><a href="/buyTickets">Buy tickets</a></li>
+              <li><a href="/form">Model</a></li>
+              <li><a href="/results">Results</a></li>
+              <li><a href="/graph">Graph</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
