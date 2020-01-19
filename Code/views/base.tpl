@@ -10,25 +10,25 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
 
-    <title>Basic series presenter</title>
+    <title>Python Bottle Web App</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
 
   </head>
   <body>
-
     <div class="container">
 <!-- Static navbar -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/">Basic series presenter</a>
+            <a class="navbar-brand" href="/">Python Bottle Web App</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="/form">Arithmetic series</a></li>
-              <li><a href="/results">Geometric series</a></li>
-              <li><a href="/graph">Graph</a></li>
+              <li><a href="/">Main</a></li>
+              <li><a href="/bestMovies">Best movies</a></li>
+              <li><a href="/boxOffice">Box office</a></li>
+			        <li><a href="/buyTickets">Buy tickets</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
