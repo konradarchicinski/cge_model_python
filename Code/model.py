@@ -4,7 +4,11 @@ import pandas as pd
 import argparse
 from pathlib import Path
 from gekko import GEKKO
-
+from pathlib import Path
+import os
+import csv
+import sql
+import sqlite3
 
 class CGE():
     '''
@@ -295,11 +299,16 @@ class CGE():
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
 
+<<<<<<< HEAD
+       
+=======
+>>>>>>> develop
         conn = None
         conn = sqlite3.connect(
             self.work_dir + 
             '\\Data\\' 
             + self.database + '.db'
+<<<<<<< HEAD
         )
         pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_sql(
             name="solution" + str(self.year + 1), 
@@ -309,6 +318,18 @@ class CGE():
         )
         conn.commit()
         conn.close()
+
+=======
+        )
+        pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_sql(
+            name="solution" + str(self.year + 1), 
+            if_exists='replace', 
+            index=True,
+            con=conn
+        )
+        conn.commit()
+        conn.close()
+>>>>>>> develop
 
         prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
         if not os.path.exists(prep_data_folder):
