@@ -15,13 +15,13 @@ def sam_data_preparation(file_name, sheet_name, setting_file):
     '''
 
     micro = pd.read_excel(
-        work_dir + '\\Data\\Raw data\\' + file_name,
+        work_dir + '\\Data\\Raw data\\' + file_name + '.xlsx',
         sheet_name=sheet_name,
         header=0,
         index_col=0
     )
     sf = pd.read_excel(
-        work_dir + '\\Settings\\' + setting_file,
+        work_dir + '\\Settings\\' + setting_file + '.xlsx',
         header=0
     )
     
