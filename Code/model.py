@@ -1,12 +1,17 @@
+import os
 import numpy as np
 import pandas as pd
 import argparse
 from pathlib import Path
 from gekko import GEKKO
+<<<<<<< HEAD
 from pathlib import Path
 import os
 import csv
 import sql_create_load
+=======
+
+>>>>>>> 639b6f6370b68b1925812392485d8b1cd3ec7bfd
 
 class CGE():
     '''
@@ -20,22 +25,38 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour, year):
+    def __init__(self, capital, labour, used_data, year):
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
-        self.used_data_folder = str(year)
+        self.used_data_folder = str(used_data) + '_'
+        self.year = year
 
         self.Shock = {'K': capital, 'L': labour}
 
-        self.use = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\production_structure.csv', index_col=0)
-        self.xdem = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\consumption_structure.csv', index_col=0)
-        self.enfac = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\endowment_of_the_household.csv', index_col=0)
-        self.taxrev = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\tax_revenue.csv', index_col=0)
-        self.trans = pd.read_csv(self.work_dir + '\\Data\\' + self.used_data_folder + '\\transfers.csv', index_col=0)
+        self.use = pd.read_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(year) + '\\production_structure.csv',
+            index_col=0
+        )
+        self.xdem = pd.read_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(year) + '\\consumption_structure.csv',
+            index_col=0
+        )
+        self.enfac = pd.read_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(year) + '\\endowment_of_the_household.csv', 
+            index_col=0
+        )
+        self.taxrev = pd.read_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(year) + '\\tax_revenue.csv',
+            index_col=0
+        )
+        self.trans = pd.read_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(year) + '\\transfers.csv',
+            index_col=0
+        )
         
         self.factors = self.use.index
         self.sectors = self.use.columns
-        self.households = self.xdem.loc[:, self.xdem.columns != 'GOVR'].columns
+        self.households = self.xdem.loc[:, self.xdem.columns != 'GOV'].columns
 
         self.beta = pd.DataFrame(index=self.factors, columns=self.sectors)
         self.alpha = pd.DataFrame(index=self.xdem.index, columns=self.xdem.columns)
@@ -105,7 +126,7 @@ class CGE():
                 )
             # Income tax rate (Tax revenues / Household gross income)
             self.itax[hou] = self.m.Const(
-                self.taxrev[hou]['GOVR'] 
+                self.taxrev[hou].sum() 
                 / np.sum(
                     [
                         self.omega[fac][hou] for fac in self.enfac.columns
@@ -133,16 +154,16 @@ class CGE():
             'PRF_WG': (
                 np.prod(
                     [
-                        (self.p[sec] / self.alpha['GOVR'][sec])**(self.alpha['GOVR'][sec]) 
+                        (self.p[sec] / self.alpha['GOV'][sec])**(self.alpha['GOV'][sec]) 
                         for sec in self.sectors
                     ]
                 ) 
-                / self.A['GOVR'] 
-                == self.PW['GOVR']
+                / self.A['GOV'] 
+                == self.PW['GOV']
             ),
             'MKT_WG': (
-                self.W['GOVR'] * self.PW['GOVR'] 
-                == self.INC['GOVR']
+                self.W['GOV'] * self.PW['GOV'] 
+                == self.INC['GOV']
             ),
             'I_INCG': (
                 np.sum(
@@ -170,7 +191,7 @@ class CGE():
                         for sec in self.sectors
                     ]
                 ) 
-                == self.INC['GOVR']
+                == self.INC['GOV']
             )
         }
 
@@ -192,7 +213,7 @@ class CGE():
                         for hou in self.households
                     ]
                 ) 
-                + self.alpha['GOVR'][sec]*self.W['GOVR']*self.PW['GOVR'] / self.p[sec] 
+                + self.alpha['GOV'][sec]*self.W['GOV']*self.PW['GOV'] / self.p[sec] 
                 == self.S[sec]
             )
 
@@ -264,9 +285,9 @@ class CGE():
         self.equilibrium()
 
         solution = {
-            'Gov_wealth': self.W['GOVR'].value[0],
-            'Gov_PI': self.PW['GOVR'].value[0],
-            'Gov_income': self.INC['GOVR'].value[0],
+            'Gov_wealth': self.W['GOV'].value[0],
+            'Gov_PI': self.PW['GOV'].value[0],
+            'Gov_income': self.INC['GOV'].value[0],
             'K_price': self.pK.value[0],
             'L_price': self.pL.value[0]
         }
@@ -279,11 +300,36 @@ class CGE():
             solution[f'{hou}_Wealth'] = self.W[hou].value[0]
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
-   
-        with open(self.work_dir + '\\Data\\solution.csv','w') as f:
-            w = csv.writer(f)
-            w.writerow(solution.keys())
-            w.writerow(solution.values())
+
+        pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_csv(
+            self.work_dir + '\\Data\\solution'+ str(self.year + 1) + '.csv'
+        )
+
+        prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
+        if not os.path.exists(prep_data_folder):
+            os.mkdir(prep_data_folder)
+
+        new_cons_dict = {}
+        for hou in self.xdem.columns:
+            new_cons_dict[hou] = [
+                self.S[sec].value[0] * self.xdem[hou][sec]/self.xdem.loc[sec].sum() 
+                for sec in self.sectors
+            ]
+        pd.DataFrame(new_cons_dict, index = self.sectors).to_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\consumption_structure.csv'
+        )
+        self.use.to_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\production_structure.csv'
+        )
+        self.enfac.to_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\endowment_of_the_household.csv'
+        )
+        self.taxrev.to_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\tax_revenue.csv'
+        )
+        self.trans.to_csv(
+            self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\transfers.csv'
+        )
 
         return print(solution)
        
@@ -314,17 +360,26 @@ def main():
         """
     )
     parser.add_argument(
+        "used_data",  
+        type=str,
+        nargs='?',
+        default="NN_SAM",
+        help="""
+        Year from which input data came.
+        """
+    )
+    parser.add_argument(
         "year",  
         type=int,
         nargs='?',
         default=2020,
         help="""
-        Year sth.
+        Year from which input data came.
         """
     )
     args = parser.parse_args()
 
-    CGE(args.capital, args.labour, args.year).results()
+    CGE(args.capital, args.labour, args.used_data, args.year).results()
 
 
 if __name__ == "__main__":
