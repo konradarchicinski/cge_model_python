@@ -21,7 +21,7 @@ class CGE():
     def __init__(self, capital, labour, used_data, year):
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
-        self.used_data_folder = str(used_data) + '_'
+        self.used_data_folder = str(used_data.split('_')[0] + '_' + used_data.split('_')[1]) + '_'
         self.year = year
 
         self.Shock = {'K': capital, 'L': labour}

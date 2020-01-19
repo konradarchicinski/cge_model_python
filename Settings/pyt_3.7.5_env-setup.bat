@@ -18,6 +18,8 @@ ECHO ========================================================
 :: 
 call conda install -c conda-forge numpy
 ::
+call conda install -c conda-forge bottle
+::
 call conda install -c conda-forge scipy
 ::
 call conda install -c conda-forge matplotlib

@@ -16,7 +16,6 @@
 
   </head>
   <body>
-
     <div class="container">
 <!-- Static navbar -->
       <nav class="navbar navbar-default">
@@ -28,8 +27,8 @@
             <ul class="nav navbar-nav">
               <li><a href="/">Main</a></li>
               <li><a href="/bestMovies">Best movies</a></li>
-               <li><a href="/boxOffice">Box office</a></li>
-			   <li><a href="/buyTickets">Buy tickets</a></li>
+              <li><a href="/boxOffice">Box office</a></li>
+			        <li><a href="/buyTickets">Buy tickets</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
