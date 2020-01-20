@@ -2,14 +2,12 @@ import os
 import numpy as np
 import pandas as pd
 import argparse
-from pathlib import Path
-from gekko import GEKKO
-from pathlib import Path
-import os
-import csv
 import sql
 import sqlite3
 import sql_join
+from pathlib import Path
+from gekko import GEKKO
+
 
 class CGE():
     '''
@@ -23,7 +21,7 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour, used_data, year, database):
+    def __init__(self, capital, labour, used_data, year, database="Database"):
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
         self.used_data_folder = str(used_data.split('_')[0] + '_' + used_data.split('_')[1]) + '_'
@@ -313,11 +311,9 @@ class CGE():
             index=True,
             con=conn
         )
-        
 
         conn.commit()
         conn.close()
-
 
         prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
         if not os.path.exists(prep_data_folder):

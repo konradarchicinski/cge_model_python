@@ -26,9 +26,8 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="/">Main</a></li>
-              <li><a href="/bestMovies">Best movies</a></li>
-              <li><a href="/boxOffice">Box office</a></li>
-			        <li><a href="/buyTickets">Buy tickets</a></li>
+              <li><a href="/cge-results">CGE Results</a></li>
+              <li><a href="/charts">Charts</a></li>
             </ul>
 
           </div><!--/.nav-collapse -->
