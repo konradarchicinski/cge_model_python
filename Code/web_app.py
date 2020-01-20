@@ -1,4 +1,4 @@
-from bottle import route, run, template, static_file, request, TEMPLATE_PATH
+from bottle import route, run, template, request, TEMPLATE_PATH
 from pathlib import Path
 import os
 import sam_partition
@@ -7,18 +7,12 @@ import model
 work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 TEMPLATE_PATH.insert(0, work_dir + '\\Code\\views')
 
-@route('/static/:path#.+#', name='static')
-def static(path):
-    return static_file(path, root='./static')
-
 @route('/')
 def index(name="Anonymous"):
-    return template('formExample', name=name)
+    return template('index', name=name)
 
-@route('/formProcess')
-@route('/formProcess/')
-@route('/formProcess', method='POST')
-@route('/formProcess/', method='POST')
+@route('/cge-results', method='POST')
+@route('/xge-results/', method='POST')
 def index(name="Anonymous"):
     print(request.forms.keys())
     myDict = {k: request.forms.getunicode(k) for k in request.forms.keys()}
@@ -33,7 +27,7 @@ def index(name="Anonymous"):
             myDict["file_name"], 
             2020+i
         ).results()
-    return template('formExampleProc', name=name, myDict=myDict)
+    return template('results', name=name, myDict=myDict)
 
 @route('/charts/')
 @route('/charts')
