@@ -34,9 +34,11 @@ def sql_str(table_name, year_start, year_end):
     return sql_str
 
 
-def join_tables(table_name, year_start, year_end, database):
+def join_tables(database, table_name, year_start, year_end):
     """ Join tables inside a SQL database """
     
+    print(sql_str(table_name, year_start, year_end))
+   
     conn = None
     conn = sqlite3.connect(
             work_dir + 
@@ -44,16 +46,23 @@ def join_tables(table_name, year_start, year_end, database):
             + database + '.db'
     )
     c = conn.cursor()
-    
-    string = sql_str(table_name, year_start, year_end)
-    c.execute(string)
-        
+    c.execute(sql_str(table_name, year_start, year_end))
     conn.commit()
     conn.close() 
 
 def main():
     parser = argparse.ArgumentParser(
         description='Program for joining SQL tables'
+    )
+    parser.add_argument(
+        'database', 
+        type=str,
+        nargs='?', 
+        default='Database',
+        help="""
+        Creates a database of provided name if there isn't any db of the same name. 
+        If there is one then performs operations on it.
+        """,
     )
     parser.add_argument(
         'table_name', 
@@ -81,20 +90,10 @@ def main():
         help="""
         Year which closes the study.
         """,
-    )
-    parser.add_argument(
-        'database', 
-        type=str,
-        nargs='?', 
-        default='Database',
-        help="""
-        Creates a database of provided name if there isn't any db of the same name. 
-        If there is one then performs operations on it.
-        """,
-    )
+    )    
     args = parser.parse_args()
 
-    join_tables(args.table_name, args.year_start, args.year_end ,args.database)    
+    join_tables(args.database, args.table_name, args.year_start, args.year_end)    
 
 if __name__ == '__main__':
     

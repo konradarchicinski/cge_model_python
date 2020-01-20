@@ -23,11 +23,12 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour, used_data, year):
+    def __init__(self, capital, labour, used_data, year, database):
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
         self.used_data_folder = str(used_data.split('_')[0] + '_' + used_data.split('_')[1]) + '_'
         self.year = year
+        self.database = database
 
         self.Shock = {'K': capital, 'L': labour}
 
@@ -304,7 +305,7 @@ class CGE():
         conn = sqlite3.connect(
             self.work_dir + 
             '\\Data\\' 
-            + 'Database.db'
+            + self.database + '.db'
         )
         pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_sql(
             name="solution" + str(self.year + 1), 
@@ -390,9 +391,18 @@ def main():
         Year from which input data came.
         """
     )
+    parser.add_argument(
+        "database",  
+        type=str,
+        nargs='?',
+        default="Database",
+        help="""
+        Name of database created.
+        """
+    )
     args = parser.parse_args()
 
-    CGE(args.capital, args.labour, args.used_data, args.year).results()
+    CGE(args.capital, args.labour, args.used_data, args.year, args.database).results()
 
 if __name__ == "__main__":
 
