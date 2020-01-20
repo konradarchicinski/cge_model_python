@@ -4,6 +4,7 @@ import pandas as pd
 import argparse
 import sql
 import sqlite3
+import sql_join
 from pathlib import Path
 from gekko import GEKKO
 
@@ -297,6 +298,7 @@ class CGE():
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
 
+       
         conn = None
         conn = sqlite3.connect(
             self.work_dir + 
@@ -309,6 +311,7 @@ class CGE():
             index=True,
             con=conn
         )
+
         conn.commit()
         conn.close()
 
@@ -390,13 +393,12 @@ def main():
         nargs='?',
         default="Database",
         help="""
-        Name of the database to which tables will be added.
+        Name of database created.
         """
     )
     args = parser.parse_args()
 
     CGE(args.capital, args.labour, args.used_data, args.year, args.database).results()
-
 
 if __name__ == "__main__":
 

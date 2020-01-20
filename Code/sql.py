@@ -46,7 +46,7 @@ def main():
         default='MyDatabase',
         help="""
         Creates a database of provided name if there isn't any db of the same name. 
-        If second argument is blank then the database is created without any tables.
+        Iterates over all csv files provided in a folder.
         """,
     )
     args = parser.parse_args()
