@@ -312,6 +312,8 @@ class CGE():
             index=True,
             con=conn
         )
+        
+
         conn.commit()
         conn.close()
 
@@ -391,7 +393,6 @@ def main():
     args = parser.parse_args()
 
     CGE(args.capital, args.labour, args.used_data, args.year).results()
-
 
 if __name__ == "__main__":
 
