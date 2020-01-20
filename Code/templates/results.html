@@ -1,8 +1,7 @@
 <div class="row">
 	<div class="col-md-12">
-		Everything went ok! And here are inputs.<br><br>
+		Everything went ok! And here are outputs.<br><br>
 		{% for table in tables %}
-            {{titles[loop.index]}}
             {{ table|safe }}
 		{% endfor %}
 	</div>

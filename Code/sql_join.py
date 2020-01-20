@@ -36,9 +36,7 @@ def sql_str(table_name, year_start, year_end):
 
 def join_tables(database, table_name="CompleteResults", year_start=2021, year_end=2025):
     """ Join tables inside a SQL database """
-    
-    print(sql_str(table_name, year_start, year_end))
-   
+ 
     conn = None
     conn = sqlite3.connect(
             work_dir + 

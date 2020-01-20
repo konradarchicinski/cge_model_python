@@ -10,27 +10,31 @@ work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 def sql_query(database, table_name, var_list):
     """Query for specific variables from tables"""
     
-    sql_query = "SELECT * FROM " + table_name + " t WHERE "
-    
-    if(len(var_list)) == 0:
-        return None
+    if var_list == "All":
+        sql_query = "SELECT * FROM " + table_name
     else:
-        for var in var_list:
-            if var != var_list[-1]:
-                sql_query += "t.'index'='" + str(var) + "' OR "
-            else:
-                sql_query += "t.'index'='" + str(var) + "'"
+        sql_query = "SELECT * FROM " + table_name + " t WHERE "
     
-    print(sql_query)
-    
+        if(len(var_list)) == 0:
+            return None
+        else:
+            for var in var_list:
+                if var != var_list[-1]:
+                    sql_query += "t.'index'='" + str(var) + "' OR "
+                else:
+                    sql_query += "t.'index'='" + str(var) + "'"
+
     conn = None
     conn = sqlite3.connect(
             work_dir + 
             '\\Data\\' 
             + database +'.db'
     )
-    return pd.read_sql_query(sql_query, conn)
+    data_table = pd.read_sql_query(sql_query, conn, index_col='index')
+    del data_table.index.name
     conn.close()
+
+    return data_table
 
 # *ARGS VERSION 
 # def sql_query(database, table_name, *args):

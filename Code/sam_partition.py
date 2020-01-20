@@ -5,7 +5,7 @@ from pathlib import Path
 
 work_dir = str(Path(os.path.realpath(__file__)).parents[1])
 
-def sam_data_preparation(file_name, sheet_name, setting_file):
+def sam_data_preparation(file_name, setting_file, sheet_name='Micro SAM'):
     '''
     Usually Social Accounting Matrix datasets are build in hard to operate way,
     this funtion helps to organize information from it.
@@ -79,19 +79,9 @@ def main():
         'file_name', 
         type=str,
         nargs='?', 
-        default='SA_SAM_2015.xlsx', 
+        default='NN_SAM_2020.xlsx', 
         help="""
         Capital shock variable in range between 0 and 1, 
-        corresponding to the percentage decrease in the sector.
-        """
-    )
-    parser.add_argument(
-        'sheet_name',  
-        type=str,
-        nargs='?',
-        default='Micro SAM 2015',
-        help="""
-        Labour shock variable in range between 0 and 1, 
         corresponding to the percentage decrease in the sector.
         """
     )
@@ -99,7 +89,17 @@ def main():
         'setting_file',  
         type=str,
         nargs='?',
-        default='SA_setting.xlsx',
+        default='NN_setting.xlsx',
+        help="""
+        Labour shock variable in range between 0 and 1, 
+        corresponding to the percentage decrease in the sector.
+        """
+    )
+    parser.add_argument(
+        'sheet_name',  
+        type=str,
+        nargs='?',
+        default='Micro SAM',
         help="""
         Labour shock variable in range between 0 and 1, 
         corresponding to the percentage decrease in the sector.
@@ -107,7 +107,7 @@ def main():
     )
     args = parser.parse_args()
 
-    sam_data_preparation(args.file_name, args.sheet_name, args.setting_file)
+    sam_data_preparation(args.file_name, args.setting_file, args.sheet_name)
 
 
 if __name__ == "__main__":

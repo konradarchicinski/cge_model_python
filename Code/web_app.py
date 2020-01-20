@@ -1,46 +1,38 @@
-from bottle import route, run, template, request, TEMPLATE_PATH
-from pathlib import Path
-import os
+from flask import Flask, render_template, request
 import sam_partition
 import model
+import sql_query as que
+import sql_join
+import pandas as pd
 
-work_dir = str(Path(os.path.realpath(__file__)).parents[1])
-TEMPLATE_PATH.insert(0, work_dir + '\\Code\\views')
+app = Flask(__name__)
 
-@route('/')
-def index(name="Anonymous"):
-    return template('index', name=name)
+@app.route('/')
+def hello(name=None):
+    return render_template('index.html', name=name)
 
-@route('/cge-results', method='POST')
-@route('/xge-results/', method='POST')
-def index(name="Anonymous"):
-    print(request.forms.keys())
-    myDict = {k: request.forms.getunicode(k) for k in request.forms.keys()}
-    
-    sam_partition.sam_data_preparation(
-        myDict["file_name"], myDict["sheet_name"], myDict["setting_name"]
-    )
-    for i in range(5):
-        model.CGE(
-            float(myDict[f"cap_shock_{2020 + i}"]), 
-            float(myDict[f"lab_shock_{2020 + i}"]),
-            myDict["file_name"], 
-            2020+i
-        ).results()
-    return template('results', name=name, myDict=myDict)
+@app.route('/cge-results', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        page_inputs = {k: request.form.get(k) for k in request.form.keys()}
+        
+        sam_partition.sam_data_preparation(
+            page_inputs["file_name"], 
+            page_inputs["setting_name"]
+        )
+        for i in range(5):
+            model.CGE(
+                float(page_inputs[f"cap_shock_{2020 + i}"]), 
+                float(page_inputs[f"lab_shock_{2020 + i}"]),
+                page_inputs["file_name"], 
+                2020+i
+            ).results()
 
-@route('/charts/')
-@route('/charts')
-def index(name="Anonymous"):
+        sql_join.join_tables(page_inputs["database_name"])
 
-    chartData = {
-"labels":['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sut', 'Sun'],
-    "data" : {
-        "apples":[12, 19, 3, 17, 6, 3, 7],
-        "oranges":[2, 29, 5, 5, 2, 3, 10],
-        "pears":[22, 39, 15, 16, 22, 31, 14],
-    }
-}
-    return template('charts', name=name, chartData=chartData)
+        df = que.sql_query(page_inputs["database_name"], 'CompleteResults', 'All')
 
-run(host='localhost', port=8080, debug=True, reloader=True)
+    return render_template('/results.html', tables=[df.to_html(classes='data')])
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1')

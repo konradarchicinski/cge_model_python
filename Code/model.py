@@ -4,7 +4,6 @@ import pandas as pd
 import argparse
 import sql
 import sqlite3
-import sql_join
 from pathlib import Path
 from gekko import GEKKO
 
@@ -315,8 +314,6 @@ class CGE():
         conn.commit()
         conn.close()
 
-        sql_join.join_tables(self.database)
-
         prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
         if not os.path.exists(prep_data_folder):
             os.mkdir(prep_data_folder)
@@ -342,8 +339,6 @@ class CGE():
         self.trans.to_csv(
             self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1) + '\\transfers.csv'
         )
-
-        return print(solution)
        
         
 def main():
