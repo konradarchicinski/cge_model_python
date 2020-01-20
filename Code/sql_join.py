@@ -34,7 +34,7 @@ def sql_str(table_name, year_start, year_end):
     return sql_str
 
 
-def join_tables(database, table_name, year_start, year_end):
+def join_tables(database, table_name="CompleteResults", year_start=2021, year_end=2025):
     """ Join tables inside a SQL database """
     
     print(sql_str(table_name, year_start, year_end))
@@ -68,7 +68,7 @@ def main():
         'table_name', 
         type=str,
         nargs='?', 
-        default='Table1',
+        default='CompleteResults',
         help="""
         Names created table in SQL Database.
         """,

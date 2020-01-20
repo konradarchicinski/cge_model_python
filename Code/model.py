@@ -315,6 +315,8 @@ class CGE():
         conn.commit()
         conn.close()
 
+        sql_join.join_tables(self.database)
+
         prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
         if not os.path.exists(prep_data_folder):
             os.mkdir(prep_data_folder)
@@ -375,7 +377,7 @@ def main():
         nargs='?',
         default="NN_SAM",
         help="""
-        Year from which input data came.
+        Name of used data.
         """
     )
     parser.add_argument(
