@@ -5,11 +5,14 @@ import sql_query as que
 import sql_join
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='', 
+            static_folder='static',
+            template_folder='templates')
 
 @app.route('/')
 def hello(name=None):
-    return render_template('index.html', name=name)
+    return render_template('index_new.html', name=name)
 
 @app.route('/cge-results', methods=['POST', 'GET'])
 def login():
@@ -32,7 +35,7 @@ def login():
 
         df = que.sql_query(page_inputs["database_name"], 'CompleteResults', 'All')
 
-    return render_template('/results.html', tables=[df.to_html(classes='data')])
+    return render_template('/results_new.html', tables=[df.to_html(classes='data')])
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1')
+    app.run(host='127.0.0.1', debug=True)
