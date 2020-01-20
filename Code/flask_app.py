@@ -12,9 +12,7 @@ app = Flask(__name__)
 def hello(name=None):
     return render_template('index.html', name=name)
 
-df = pd.DataFrame({'A': [0, 1, 2, 3, 4],
-                   'B': [5, 6, 7, 8, 9],
-                   'C': ['a', 'b', 'c--', 'd', 'e']})
+df = pd.read_csv("E:\\nauka\\GitHub\\cge_model_python\\Data\\all_results.csv", index_col=0)
 
 @app.route('/cge-results', methods=['POST', 'GET'])
 def login():
