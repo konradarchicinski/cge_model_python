@@ -9,6 +9,7 @@ import os
 import csv
 import sql
 import sqlite3
+import sql_join
 
 class CGE():
     '''
@@ -22,12 +23,11 @@ class CGE():
     Model has been written completly in Python.
     '''
 
-    def __init__(self, capital, labour, used_data, year, database):
+    def __init__(self, capital, labour, used_data, year):
 
         self.work_dir = str(Path(os.path.realpath(__file__)).parents[1])
         self.used_data_folder = str(used_data.split('_')[0] + '_' + used_data.split('_')[1]) + '_'
         self.year = year
-        self.database = database
 
         self.Shock = {'K': capital, 'L': labour}
 
@@ -299,16 +299,12 @@ class CGE():
             solution[f'{hou}_CPI'] = self.PW[hou].value[0]
             solution[f'{hou}_Income'] = self.INC[hou].value[0]
 
-<<<<<<< HEAD
        
-=======
->>>>>>> develop
         conn = None
         conn = sqlite3.connect(
             self.work_dir + 
             '\\Data\\' 
-            + self.database + '.db'
-<<<<<<< HEAD
+            + 'Database.db'
         )
         pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_sql(
             name="solution" + str(self.year + 1), 
@@ -319,17 +315,6 @@ class CGE():
         conn.commit()
         conn.close()
 
-=======
-        )
-        pd.DataFrame(solution, index = [str(self.year + 1)]).transpose().to_sql(
-            name="solution" + str(self.year + 1), 
-            if_exists='replace', 
-            index=True,
-            con=conn
-        )
-        conn.commit()
-        conn.close()
->>>>>>> develop
 
         prep_data_folder = self.work_dir + '\\Data\\' + self.used_data_folder + str(self.year + 1)
         if not os.path.exists(prep_data_folder):
@@ -403,18 +388,9 @@ def main():
         Year from which input data came.
         """
     )
-    parser.add_argument(
-        "database",  
-        type=str,
-        nargs='?',
-        default="Database",
-        help="""
-        Name of the database to which tables will be added.
-        """
-    )
     args = parser.parse_args()
 
-    CGE(args.capital, args.labour, args.used_data, args.year, args.database).results()
+    CGE(args.capital, args.labour, args.used_data, args.year).results()
 
 
 if __name__ == "__main__":
