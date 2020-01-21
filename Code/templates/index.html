@@ -1,6 +1,55 @@
-<div class="row">
-	<div class="col-md-12">
-        <h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>CGE modelling App</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Start CGE modelling</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cge-results">Last results</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/chart">Chart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <h1>
         CGE modelling in Python
         </h1>
         <p>
@@ -15,65 +64,70 @@
                 </h2>
                 </legend>
                 <div class="control">
-                <label for="name">File name:<br></label><input type="text" name="file_name" value=""/>
+                  <label for="name">File name:</label><br><input type="text" name="file_name" value="NN_SAM_2020"/>
                 </div>
                 <div class="control">
-                <label for="name">Setting name:<br></label><input type="text" name="setting_name" value=""/>
+                  <label for="name">Setting name:</label><br><input type="text" name="setting_name" value="NN_setting"/>
                 </div>
                 <div class="control">
-                <label for="name">Output Database name:<br></label><input type="text" name="database_name" value=""/>
+                  <label for="name">Output Database name:</label><br><input type="text" name="database_name" value="Database"/>
                 </div>
                 <br>
                 <fieldset>
                     <legend>Year 2020:</legend>
                     <div class="control">
-                        <label for="name">Capital shock: </label><input type="float" name="cap_shock_2020" value="0"/>
+                        <label for="name">Capital shock:</label>&nbsp<input type="float" name="cap_shock_2020" value="0.1"/>
                     </div>
                     <div class="control">
-                        <label for="name">Labour shock: </label><input type="float" name="lab_shock_2020" value="0"/>
+                        <label for="name">Labour shock:</label>&nbsp<input type="float" name="lab_shock_2020" value="0"/>
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Year 2021:</legend>
                     <div class="control">
-                        <label for="name">Capital shock: </label><input type="float" name="cap_shock_2021" value="0"/>
+                        <label for="name">Capital shock:</label>&nbsp<input type="float" name="cap_shock_2021" value="0.1"/>
                     </div>
                     <div class="control">
-                        <label for="name">Labour shock: </label><input type="float" name="lab_shock_2021" value="0"/>
+                        <label for="name">Labour shock:</label>&nbsp<input type="float" name="lab_shock_2021" value="0"/>
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Year 2022:</legend>
                     <div class="control">
-                        <label for="name">Capital shock: </label><input type="float" name="cap_shock_2022" value="0"/>
+                        <label for="name">Capital shock:</label>&nbsp<input type="float" name="cap_shock_2022" value="0.1"/>
                     </div>
                     <div class="control">
-                        <label for="name">Labour shock: </label><input type="float" name="lab_shock_2022" value="0"/>
+                        <label for="name">Labour shock:</label>&nbsp<input type="float" name="lab_shock_2022" value="0"/>
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Year 2023:</legend>
                     <div class="control">
-                        <label for="name">Capital shock: </label><input type="float" name="cap_shock_2023" value="0"/>
+                        <label for="name">Capital shock:</label>&nbsp<input type="float" name="cap_shock_2023" value="-0.5"/>
                     </div>
                     <div class="control">
-                        <label for="name">Labour shock: </label><input type="float" name="lab_shock_2023" value="0"/>
+                        <label for="name">Labour shock:</label>&nbsp<input type="float" name="lab_shock_2023" value="0"/>
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Year 2024:</legend>
                     <div class="control">
-                        <label for="name">Capital shock: </label><input type="float" name="cap_shock_2024" value="0"/>
+                        <label for="name">Capital shock:</label>&nbsp<input type="float" name="cap_shock_2024" value="0"/>
                     </div>
                     <div class="control">
-                        <label for="name">Labour shock: </label><input type="float" name="lab_shock_2024" value="0"/>
+                        <label for="name">Labour shock:</label>&nbsp<input type="float" name="lab_shock_2024" value="0.2"/>
                     </div>
                 </fieldset>
                 <br>
                 <div class="control">
                     <input type="submit" value="Submit" />
                 </div>
-            </fieldset>
+                <br>
+            </fieldset >
         </form> 	
-	</div>
-</div>
+    </div>
+  </div>
+
+</body>
+
+</html>
