@@ -6,6 +6,7 @@ import sql_join
 import pandas as pd
 from datetime import datetime, timedelta
 import os
+import chart
 
 app = Flask(__name__,
             static_url_path='', 
@@ -55,7 +56,21 @@ def post_results():
 
 @app.route('/chart')
 def create_chart():
-    return render_template('chart.html')
+
+    if os.path.exists("_lastDBlog.txt"):
+        with open("_lastDBlog.txt", "r") as f:
+            line = f.readline().rstrip()
+            log_text = line.split(" - ")
+        data_chart = que.sql_query(
+            log_text[0], 'CompleteResults', ['HOU_0-30_Wealth','HOU_30-60_Wealth','HOU_60-90_Wealth','HOU_90-95_Wealth','HOU_95-100_Wealth']
+        )
+    else: 
+        data_chart = que.sql_query(
+            "Database", 'CompleteResults', ['HOU_0-30_Wealth','HOU_30-60_Wealth','HOU_60-90_Wealth','HOU_90-95_Wealth','HOU_95-100_Wealth']
+        )
+
+    bar = chart.create_plot(data_chart)
+    return render_template('chart.html', plot=bar)
 
 @app.route('/contact')
 def show_contact():

@@ -13,6 +13,9 @@
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
 
 </head>
 
@@ -48,8 +51,16 @@
 
   <!-- Page Content -->
   <div class="container">
-    <div class="row">
-        Content
+    <div>
+        <div class="col-md-6">
+          <br>
+          <div class="chart" id="bargraph" align="center">
+            <script>
+                var graphs = {{plot | safe}};
+                Plotly.plot('bargraph',graphs,{});
+            </script>
+          </div>
+        </div>
     </div>
   </div>
 
