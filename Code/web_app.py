@@ -4,7 +4,7 @@ import model
 import sql_query as que
 import sql_join
 import pandas as pd
-import datetime
+from datetime import datetime, timedelta
 import os
 
 app = Flask(__name__,
@@ -39,15 +39,14 @@ def post_results():
         df = que.sql_query(page_inputs["database_name"], 'CompleteResults', 'All')
 
         with open("_lastDBlog.txt", "w") as text_file:
-            print(f"{page_inputs['database_name']} - {datetime.datetime.now()}", file=text_file)
+            print(f"{page_inputs['database_name']} - {datetime.now()}", file=text_file)
  
     if request.method == 'GET':
 
         if os.path.exists("_lastDBlog.txt"):
             with open("_lastDBlog.txt", "r") as f:
-                data = f.readlines()
-                for line in data:
-                    log_text = line.split(" - ")
+                line = f.readline().rstrip()
+                log_text = line.split(" - ")
             df = que.sql_query(log_text[0], 'CompleteResults', 'All')
         else: 
             df = que.sql_query("Database", 'CompleteResults', 'All')
