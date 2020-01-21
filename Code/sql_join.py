@@ -35,7 +35,7 @@ def sql_str(table_name, year_start, year_end):
 
 
 def join_tables(database, table_name="CompleteResults", year_start=2021, year_end=2025):
-    """ Join tables inside a SQL database """
+    """ Join tables inside a SQL database and check whether table exists"""
  
     conn = None
     conn = sqlite3.connect(
@@ -44,6 +44,10 @@ def join_tables(database, table_name="CompleteResults", year_start=2021, year_en
             + database + '.db'
     )
     c = conn.cursor()
+    
+    check_if_exists = "DROP TABLE IF EXISTS " + str(table_name)
+    c.execute(check_if_exists)
+    
     c.execute(sql_str(table_name, year_start, year_end))
     conn.commit()
     conn.close() 
