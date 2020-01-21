@@ -46,8 +46,8 @@ def create_plot(data_res):
     )
 
     data = [trace1, trace2, trace3, trace4, trace5]
-
     fig = go.Figure(data=data, layout=layout)
+    fig.update_xaxes(nticks=len(data_res.columns))
 
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
