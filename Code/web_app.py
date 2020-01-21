@@ -30,7 +30,8 @@ def post_results():
                 float(page_inputs[f"cap_shock_{2020 + i}"]), 
                 float(page_inputs[f"lab_shock_{2020 + i}"]),
                 page_inputs["file_name"], 
-                2020+i
+                2020+i,
+                page_inputs["database_name"]
             ).results()
 
         sql_join.join_tables(page_inputs["database_name"])
